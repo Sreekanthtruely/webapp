@@ -22,21 +22,21 @@ pipeline {
         
 
   stage('Docker Build and Tag') {
-           steps {
+        steps {
               
                 sh 'docker build -t samplewebapp:latest .' 
-                sh 'docker tag samplewebapp sragro/samplewebapp:latest'
-                //sh 'docker tag samplewebapp sragro/samplewebapp:$BUILD_NUMBER'
+                // sh 'docker tag samplewebapp sragro/samplewebapp:latest'
+                sh 'docker tag samplewebapp sragro/samplewebapp:$BUILD_NUMBER'
                
           }
         }
      
   stage('Publish image to Docker Hub') {
           
-            steps {
-        withDockerRegistry([ credentialsId: "DockerHub", url: "" ]) {
-          sh  'docker push sragro/samplewebapp:latest'
-        //  sh  'docker push sragro/samplewebapp:$BUILD_NUMBER' 
+         steps {
+          withDockerRegistry([ credentialsId: "DockerHub", url: "" ]) {
+          // sh  'docker push sragro/samplewebapp:latest'
+          sh  'docker push sragro/samplewebapp:$BUILD_NUMBER' 
 	}
 	    }
   }
